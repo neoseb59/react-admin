@@ -65,14 +65,33 @@ React-admin requires a valid dataProvider function to work.`);
             ? convertLegacyDataProvider(dataProvider)
             : dataProvider;
 
-    const finalHistory = history || createHashHistory();
+    let historyRef = React.useRef<History>();
+    if (historyRef.current == null) {
+        historyRef.current = createHashHistory({ window });
+    }
+
+    let finalHistory = historyRef.current;
+    let [historyState, setHistoryState] = React.useState({
+        action: finalHistory.action,
+        location: finalHistory.location,
+    });
+
+    React.useLayoutEffect(() => finalHistory.listen(setHistoryState), [
+        finalHistory,
+    ]);
 
     const renderCore = () => {
         return (
             <AuthContext.Provider value={finalAuthProvider}>
                 <DataProviderContext.Provider value={finalDataProvider}>
                     <TranslationProvider i18nProvider={i18nProvider}>
-                        <Router history={finalHistory}>{children}</Router>
+                        <Router
+                            navigator={finalHistory}
+                            location={historyState.location}
+                            navigationType={historyState.action}
+                        >
+                            {children}
+                        </Router>
                     </TranslationProvider>
                 </DataProviderContext.Provider>
             </AuthContext.Provider>

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-final-form';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 
 import { useTranslate } from '../i18n';
@@ -17,18 +17,19 @@ import { useTranslate } from '../i18n';
  * click the cancel button, users briefly see the page they asked before
  * seeing the form page again. But that's the best we can do.
  *
- * @see history.block()
+ * @see navigate.block()
  */
 const useWarnWhenUnsavedChanges = (enable: boolean) => {
     const form = useForm();
-    const history = useHistory();
+    const navigate = useNavigate();
     const translate = useTranslate();
+    const location = useLocation();
 
     // Keep track of the current location inside the form (e.g. active tab)
-    const formLocation = useRef(history.location);
+    const formLocation = useRef(location);
     useEffect(() => {
-        formLocation.current = history.location;
-    }, [history.location]);
+        formLocation.current = location;
+    }, [location]);
 
     useEffect(() => {
         if (!enable) {
@@ -72,7 +73,7 @@ const useWarnWhenUnsavedChanges = (enable: boolean) => {
                         'unsavedChanges',
                         JSON.stringify(dirtyFieldValues)
                     );
-                    history.push(formLocation.current);
+                    navigate(formLocation.current);
                 }
             } else {
                 window.sessionStorage.removeItem('unsavedChanges');
