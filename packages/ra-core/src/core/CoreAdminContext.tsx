@@ -17,7 +17,6 @@ import {
     I18nProvider,
     DataProvider,
     AdminChildren,
-    CustomRoutes,
     DashboardComponent,
     LegacyDataProvider,
     InitialState,
@@ -29,7 +28,6 @@ export interface AdminContextProps {
     authProvider?: AuthProvider | LegacyAuthProvider;
     children?: AdminChildren;
     customReducers?: object;
-    customRoutes?: CustomRoutes;
     dashboard?: DashboardComponent;
     dataProvider: DataProvider | LegacyDataProvider;
     history?: History;
