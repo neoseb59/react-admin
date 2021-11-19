@@ -6,14 +6,12 @@ import {
     SortPayload,
     FilterPayload,
     Record as RaRecord,
-    ResourceComponentProps,
-    ResourceComponentPropsWithId,
     MutationMode,
     OnSuccess,
     OnFailure,
 } from 'ra-core';
 
-export interface ListProps extends ResourceComponentProps {
+export interface ListProps {
     actions?: ReactElement | false;
     aside?: ReactElement;
     bulkActionButtons?: ReactElement | false;
@@ -27,31 +25,35 @@ export interface ListProps extends ResourceComponentProps {
     filters?: ReactElement | ReactElement[];
     pagination?: ReactElement | false;
     perPage?: number;
+    resource?: string;
     sort?: SortPayload;
     syncWithLocation?: boolean;
     title?: string | ReactElement;
 }
 
-export interface EditProps extends ResourceComponentPropsWithId {
+export interface EditProps {
     actions?: ReactElement | false;
     aside?: ReactElement;
     classes?: any;
     className?: string;
     component?: ElementType;
+    id?: Identifier;
     mutationMode?: MutationMode;
     onSuccess?: OnSuccess;
     onFailure?: OnFailure;
+    resource?: string;
     transform?: (data: RaRecord) => RaRecord | Promise<RaRecord>;
     title?: string | ReactElement;
 }
 
-export interface CreateProps extends ResourceComponentProps {
+export interface CreateProps {
     actions?: ReactElement | false;
     aside?: ReactElement;
     classes?: any;
     className?: string;
     component?: ElementType;
     record?: Partial<RaRecord>;
+    resource?: string;
     onSuccess?: OnSuccess;
     onFailure?: OnFailure;
     transform?: (data: RaRecord) => RaRecord | Promise<RaRecord>;
